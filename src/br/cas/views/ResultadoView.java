@@ -10,12 +10,14 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class ResultadoView {
 
 	private JFrame frmCasConsulta;
 	private JTextField txtIe;
+	private ArrayList<ResultadoModel> res;
 
 	/**
 	 * Launch the application.
@@ -46,7 +48,7 @@ public class ResultadoView {
 	private void initialize() {
 		frmCasConsulta = new JFrame();
 		frmCasConsulta.setTitle("CAS - Consulta Automatizada ao Sintegra");
-		frmCasConsulta.setBounds(100, 100, 413, 449);
+		frmCasConsulta.setBounds(100, 100, 413, 229);
 		frmCasConsulta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCasConsulta.getContentPane().setLayout(null);
 		
@@ -62,12 +64,27 @@ public class ResultadoView {
 		
 		JButton btnConsultar = new JButton("Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				ResultadoController busca = new ResultadoController();
 				
 				ResultadoModel consulta = busca.consultaInscricaoEstadual(txtIe.getText());
 				
+				res = new ArrayList<ResultadoModel>();
+				res.add(consulta);
+				
+				RelatorioFrame frame = new RelatorioFrame(res);
+				frame.setVisible(true);
+				frame.show(true);
+//				RelatorioView relatorio = new RelatorioView(res);
+//				relatorio.setVisible(true);
+//				relatorio.show(true);
+				
 				busca.printAll(consulta);
+				
+				
+				
+				
 			}
 		});
 		btnConsultar.setBounds(190, 130, 91, 23);
